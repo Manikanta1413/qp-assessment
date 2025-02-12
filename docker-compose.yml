@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: grocery-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: grocery_booking
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app_network
+
+  redis:
+    image: redis:alpine
+    container_name: grocery-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - app_network
+
+  app:
+    build: .
+    container_name: grocery-app
+    restart: always
+    depends_on:
+      - mysql
+      - redis
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      MYSQL_HOST: mysql
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DB: grocery_booking
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    networks:
+      - app_network
+
+volumes:
+  mysql_data:
+
+networks:
+  app_network:

@@ -1,5 +1,5 @@
 import request from "supertest";
-import app  from "../app";
+import app  from "../src/app";
 
 describe("Admin CRUD Operations", () => {
   let token: string;

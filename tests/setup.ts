@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { initializeDatabase } from "../config/database";
+import { initializeDatabase } from "../src/config/database";
 
 // Load .env test file
 dotenv.config({ path: ".env.test" });
