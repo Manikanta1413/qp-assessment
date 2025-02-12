@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2016",
-    "module": "commonjs",
+    "module": "ESNext",
     "lib": ["es2016", "dom"],
     "moduleResolution": "node",
     "experimentalDecorators": true,
@@ -16,3 +16,22 @@
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
+
+// {
+//   "compilerOptions": {
+//     "target": "es2016",                         // Your current target is fine
+//     "module": "ESNext",                         // Change to "ESNext" for ESM support
+//     "lib": ["es2016", "dom"],
+//     "moduleResolution": "node",
+//     "experimentalDecorators": true,
+//     "emitDecoratorMetadata": true,
+//     "outDir": "./src",
+//     "rootDir": "./src",
+//     "strict": true,
+//     "esModuleInterop": true,
+//     "skipLibCheck": true,
+//     "forceConsistentCasingInFileNames": true
+//   },
+//   "include": ["src/**/*.ts"],
+//   "exclude": ["node_modules"]
+// }

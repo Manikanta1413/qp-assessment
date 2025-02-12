@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: grocery_booking
+      MYSQL_DATABASE: grocery_db
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
@@ -40,7 +40,7 @@ services:
       MYSQL_HOST: mysql
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-      MYSQL_DB: grocery_booking
+      MYSQL_DB: grocery_db
       REDIS_HOST: redis
       REDIS_PORT: 6379
     networks:

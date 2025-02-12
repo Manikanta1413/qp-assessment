@@ -2,11 +2,12 @@
   "name": "grocery-booking-api",
   "version": "1.0.0",
   "description": "Grocery Booking API using TypeScript, Node.js, TypeORM, MySQL, Redis",
-  "main": "dist/server.js",
+  "main": "src/server.ts",
+  "type": "module",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev": "ts-node --loader ts-node/esm --project tsconfig.json src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/server.ts",
     "test": "jest --config jest.config.js",
     "test:watch": "jest --watch",
     "lint": "eslint . --ext .ts",
@@ -31,13 +32,12 @@
     "nodemon": "^3.1.9",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.1.6",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.17",
+    "typescript": "^5.1.6"
   },
   "devDependencies": {
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "eslint": "^8.33.0",
-    "prettier": "^3.0.2"
+    "typescript": "^5.7.3"
   }
 }

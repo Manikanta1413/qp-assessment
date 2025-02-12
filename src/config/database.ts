@@ -1,7 +1,5 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { User } from "../entities/User";
-import { Grocery } from "../entities/Grocery";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -11,12 +9,12 @@ const databaseName = isTestEnv ? process.env.DB_NAME_TEST : process.env.DB_NAME;
 
 export const AppDataSource = new DataSource({
   type: "mysql",
-  host: process.env.DB_HOST,
+  host: process.env.DB_HOST || "localhost",
   port: Number(process.env.DB_PORT) || 3306,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: databaseName,
-  entities: [User, Grocery],
+  username: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "qp_assessment",
+  database: databaseName || "grocery_db",
+  entities: ["src/entities/**/*.ts"],
   synchronize: isTestEnv,
   logging: false,
   poolSize: 10,
