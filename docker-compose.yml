@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+    container_name: my-js-app
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=qp_assessment
+      - DB_NAME=grocery_db
+      - JWT_SECRET=qp-assessment
+      - NODE_ENV=test
+      - DB_NAME_TEST=grocery_db_test
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  # MySQL database container
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: qp_assessment # Set root password for MySQL
+      MYSQL_DATABASE: grocery_db
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+# Networks to allow communication between services
+networks:
+  app-network:
+    driver: bridge
+
+# Volumes to persist data
+volumes:
+  mysql_data:

@@ -1,0 +1,322 @@
+openapi: 3.0.0
+info:
+  title: Grocery Ordering API
+  version: 1.0.0
+  description: API for managing grocery orders
+
+servers:
+  - url: http://localhost:3000
+
+tags:
+  - name: Groceries
+    description: API endpoints for public grocery access
+  - name: Admin
+    description: API endpoints for administrative tasks related to groceries
+
+paths:
+  /user/groceries: # User route now under /user
+    get:
+      summary: Get list of available groceries (User)
+      tags:
+        - Groceries
+      responses:
+        "200":
+          description: Successful retrieval of groceries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Grocery"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /admin/groceries: # Admin route now under /admin
+    get:
+      summary: Get list of all groceries (Admin)
+      tags:
+        - Admin
+      security:
+        - Authorization: []
+      responses:
+        "200":
+          description: Successful retrieval of groceries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Grocery"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    post:
+      summary: Add a new grocery item (Admin)
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GroceryInput"
+      security:
+        - Authorization: []
+      responses:
+        "201":
+          description: Grocery item created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Grocery"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /admin/groceries/{id}: # Admin PUT/DELETE /admin/groceries/{id}
+    put:
+      summary: Update a grocery item (Admin)
+      tags:
+        - Admin
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID of the grocery item to update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GroceryInput"
+      security:
+        - Authorization: []
+      responses:
+        "200":
+          description: Grocery item updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Grocery"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    delete:
+      summary: Delete a grocery item (Admin)
+      tags:
+        - Admin
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID of the grocery item to delete
+      security:
+        - Authorization: []
+      responses:
+        "204":
+          description: Grocery item deleted successfully (No Content)
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /user/order: # User route now under /user
+    post:
+      summary: Book multiple grocery items (User)
+      tags:
+        - Groceries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderRequest"
+      security:
+        - Authorization: []
+      responses:
+        "201":
+          description: Order placed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  orderId:
+                    type: integer
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    Grocery:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+        stock:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    GroceryInput:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        stock:
+          type: integer
+      required:
+        - name
+        - price
+        - stock
+    OrderRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              groceryId:
+                type: integer
+              quantity:
+                type: integer
+      required:
+        - items
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
