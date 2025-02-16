@@ -1,1 +1,1 @@
-# node-grocery-task
+# qp-grocery-assessment
